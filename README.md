@@ -6,11 +6,13 @@ A full-stack wedding website with RSVP management, fuzzy guest matching, interac
 
 - **Landing Page** (`/`) — Elegant hero with countdown timer, wedding details, and quick links
 - **RSVP Flow** (`/rsvp`) — Guests enter their name/phone; fuzzy matching finds their record even with typos or partial info (e.g., "Jon" → "John")
-- **Find My Seat** (`/find-my-seat`) — Public page where confirmed guests can see their table and seat on an interactive venue map
+- **Find My Seat** (`/find-my-seat`) — Public page where confirmed guests can see their table and seat on an interactive venue map. Auto-loads from cookie if they already RSVPed
 - **Admin Panel** (protected)
   - **Dashboard** (`/admin`) — RSVP stats at a glance
   - **Guest Management** (`/admin/guests`) — Full CRUD for guests, CSV bulk import/export, search/filter by status
   - **Table Designer** (`/admin/tables`) — Interactive SVG map where you can add, position, resize, and rotate tables. Assign guests to tables/seats via dropdowns
+- **Three-Tier Events** — Each guest can be invited to Tea Ceremony (1pm), Vow Ceremony (3pm), Reception (6pm), or any combination. RSVP page shows only the events they're invited to
+- **Cookie Persistence** — After RSVPing, a 1-year cookie saves the guest ID so `/find-my-seat` auto-loads their info on return visits
 
 ## Tech Stack
 
@@ -27,8 +29,8 @@ A full-stack wedding website with RSVP management, fuzzy guest matching, interac
 ```
 app/
 ├── page.tsx                    # Landing page
-├── rsvp/page.tsx               # RSVP flow
-├── find-my-seat/page.tsx       # Seat finder + map
+├── rsvp/page.tsx               # RSVP flow (sets cookie on success)
+├── find-my-seat/page.tsx       # Seat finder + map (reads cookie)
 ├── admin/
 │   ├── login/page.tsx          # Admin login (public)
 │   └── (protected)/            # Protected admin routes
@@ -84,15 +86,34 @@ prisma/
 - Go to [http://localhost:3000/admin](http://localhost:3000/admin)
 - Login with username `admin` and your `ADMIN_PASSWORD`
 
+### Running in Production Mode Locally
+
+The dev server (`npm run dev`) uses Turbopack which is memory-heavy. For a lighter, more stable server:
+
+```bash
+npm run build
+nohup npm start > server.log 2>&1 &
+```
+
+To stop:
+```bash
+powershell.exe -Command "Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force"
+```
+
+Or:
+```bash
+taskkill /F /IM node.exe
+```
+
 ### Importing Guests
 
 In the admin panel, go to **Guest Management** → **Import CSV**.
 
 Expected CSV format:
 ```csv
-firstName,lastName,phone,email,seatNumber,plusOne,plusOneName,notes
-John,Doe,555-1234,john@example.com,,false,,
-Jane,Smith,555-5678,jane@example.com,,true,John Smith,
+firstName,lastName,phone,email,seatNumber,plusOne,plusOneName,invitedToTea,invitedToCeremony,invitedToReception,notes
+John,Doe,555-1234,john@example.com,,false,,false,false,true,
+Jane,Smith,555-5678,jane@example.com,,true,John Smith,true,true,true,
 ```
 
 ## Deployment
