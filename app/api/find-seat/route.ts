@@ -7,6 +7,7 @@ const schema = z.object({
   firstName: z.string().min(1).optional(),
   lastName: z.string().min(1).optional(),
   phone: z.string().optional(),
+  guestId: z.number().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -22,6 +23,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (guests.length === 0) {
+      return NextResponse.json({ matches: [] });
+    }
+
+    if (parsed.guestId) {
+      const guest = guests.find((g) => g.id === parsed.guestId);
+      if (guest) {
+        return NextResponse.json({ matches: [guest] });
+      }
       return NextResponse.json({ matches: [] });
     }
 

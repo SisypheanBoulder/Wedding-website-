@@ -85,6 +85,10 @@ export default function RsvpPage() {
       const data = await res.json();
       if (data.success) {
         setSelectedGuest(data.guest);
+        // Save guest ID in a persistent cookie (1 year expiry)
+        const expiry = new Date();
+        expiry.setFullYear(expiry.getFullYear() + 1);
+        document.cookie = `wedding-guest-id=${data.guest.id}; expires=${expiry.toUTCString()}; path=/; SameSite=Lax`;
         setStep("success");
       } else {
         setError(data.error || "Something went wrong.");

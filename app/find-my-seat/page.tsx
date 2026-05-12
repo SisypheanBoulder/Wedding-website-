@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import TableMap from "@/components/table-map";
 
@@ -14,6 +14,11 @@ interface GuestMatch {
   table: { id: number; name: string; shape: string; seats: number; x: number; y: number; width: number; height: number; rotation: number } | null;
 }
 
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
 export default function FindMySeatPage() {
   const [form, setForm] = useState({ firstName: "", lastName: "", phone: "" });
   const [matches, setMatches] = useState<GuestMatch[]>([]);
@@ -21,6 +26,28 @@ export default function FindMySeatPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
+  const [autoLoading, setAutoLoading] = useState(true);
+
+  useEffect(() => {
+    const guestId = getCookie("wedding-guest-id");
+    if (guestId) {
+      fetch("/api/find-seat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ guestId: parseInt(guestId) }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.matches?.length > 0) {
+            setSelectedGuest(data.matches[0]);
+          }
+          setAutoLoading(false);
+        })
+        .catch(() => setAutoLoading(false));
+    } else {
+      setAutoLoading(false);
+    }
+  }, []);
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -62,7 +89,13 @@ export default function FindMySeatPage() {
         <h1 className="text-4xl font-serif text-stone-900 mb-2">Find My Seat</h1>
         <p className="text-stone-500 mb-8">Enter your details to see where you&apos;re sitting.</p>
 
-        {!selectedGuest ? (
+        {autoLoading && (
+          <div className="bg-white p-8 rounded-xl shadow-sm text-center">
+            <p className="text-stone-500">Checking for your saved RSVP...</p>
+          </div>
+        )}
+
+        {!autoLoading && !selectedGuest && (
           <>
             <form onSubmit={handleSearch} className="bg-white p-6 rounded-xl shadow-sm mb-8">
               <div className="grid md:grid-cols-3 gap-4">
@@ -140,7 +173,9 @@ export default function FindMySeatPage() {
               </div>
             )}
           </>
-        ) : (
+        )}
+
+        {selectedGuest && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <div className="flex items-center justify-between mb-4">
@@ -155,16 +190,29 @@ export default function FindMySeatPage() {
                     </p>
                   )}
                 </div>
-                <button
-                  onClick={() => {
-                    setSelectedGuest(null);
-                    setSearched(false);
-                    setMatches([]);
-                  }}
-                  className="text-stone-500 hover:text-stone-700 text-sm"
-                >
-                  Search again
-                </button>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => {
+                      setSelectedGuest(null);
+                      setSearched(false);
+                      setMatches([]);
+                    }}
+                    className="text-stone-500 hover:text-stone-700 text-sm"
+                  >
+                    Search again
+                  </button>
+                  <button
+                    onClick={() => {
+                      document.cookie = "wedding-guest-id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                      setSelectedGuest(null);
+                      setSearched(false);
+                      setMatches([]);
+                    }}
+                    className="text-red-400 hover:text-red-600 text-sm"
+                  >
+                    Clear my info
+                  </button>
+                </div>
               </div>
             </div>
 
