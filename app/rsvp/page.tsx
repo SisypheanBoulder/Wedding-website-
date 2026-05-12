@@ -228,7 +228,7 @@ export default function RsvpPage() {
                   </div>
                 )}
               </div>
-              <p className="text-xs text-stone-400 mt-2">All events at The Garden Estate</p>
+              <p className="text-xs text-stone-400 mt-2">All events at The Club Marconi</p>
             </div>
 
             <div>

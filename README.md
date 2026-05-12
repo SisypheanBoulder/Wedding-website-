@@ -76,7 +76,8 @@ prisma/
 
 5. Start the development server:
    ```bash
-   npm run dev
+   npm run build   # rebuild after any code changes                                                                                                                   
+   npm start 
    ```
 
 6. Open [http://localhost:3000](http://localhost:3000)

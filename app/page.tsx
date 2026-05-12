@@ -70,7 +70,7 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-stone-700 mb-2">
             Sunday, March 28th, 2027
           </p>
-          <p className="text-stone-500 mb-12">3:00 PM · The Garden Estate</p>
+          <p className="text-stone-500 mb-12">3:00 PM · The Club Marconi</p>
 
           <div className="mb-12">
             <Countdown targetDate={weddingDate} />
@@ -104,7 +104,7 @@ export default function HomePage() {
               </div>
               <div className="text-left">
                 <h3 className="text-xl font-serif mb-1">Tea Ceremony</h3>
-                <p className="text-stone-500">1:00 PM · The Garden Room</p>
+                <p className="text-stone-500">1:00 PM · The Elettra</p>
                 <p className="text-stone-400 text-sm mt-1">An intimate gathering for family and close friends</p>
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function HomePage() {
               </div>
               <div className="text-left">
                 <h3 className="text-xl font-serif mb-1">Vow Ceremony</h3>
-                <p className="text-stone-500">3:00 PM · The Garden Chapel</p>
+                <p className="text-stone-500">3:00 PM · The Elettra</p>
                 <p className="text-stone-400 text-sm mt-1">Where we say our vows and become husband and wife</p>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function HomePage() {
               </div>
               <div className="text-left">
                 <h3 className="text-xl font-serif mb-1">Reception</h3>
-                <p className="text-stone-500">6:00 PM · The Grand Ballroom</p>
+                <p className="text-stone-500">6:00 PM · La Boheme</p>
                 <p className="text-stone-400 text-sm mt-1">Dinner, drinks, and dancing with everyone we love</p>
               </div>
             </div>
@@ -135,8 +135,8 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-serif mb-2">The Garden Estate</h3>
-              <p className="text-stone-500">123 Blossom Lane</p>
+              <h3 className="text-xl font-serif mb-2">The Club Marconi</h3>
+              <p className="text-stone-500">121-133 Prairie Vale Rd, Bossley Park NSW 2176</p>
               <p className="text-stone-400 text-sm mt-1">All events at the same venue</p>
             </div>
           </div>
