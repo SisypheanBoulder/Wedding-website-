@@ -165,6 +165,153 @@ powershell.exe -Command "Get-Process node -ErrorAction SilentlyContinue | Stop-P
 
 ---
 
+## How to Modify the Website
+
+### Landing Page (`app/page.tsx`)
+
+| What to Change | Where | Notes |
+|---|---|---|
+| Couple names | Lines with `Adrian <span className="text-stone-400">&</span> Katelyn` | Update both the hero and footer |
+| Wedding date | `new Date("2027-03-28T15:00:00")` | ISO format. Also update the text "Sunday, March 28th, 2027" |
+| Event times | The three event cards (Tea/Vow/Reception) | Each has time, room name, and description |
+| Venue name/address | "The Garden Estate" and "123 Blossom Lane" | Update in both hero and footer sections |
+| Background image | The `bg-[url('https://images.unsplash.com/...')]` line | Replace with your own image URL or remove the opacity overlay |
+| Countdown timer | The `weddingDate` constant | Automatically calculates from this date |
+
+**Hero background image tip:** The current image is loaded from Unsplash via URL. To use a local image:
+1. Put your image in `public/` (e.g., `public/hero.jpg`)
+2. Change the CSS to: `bg-[url('/hero.jpg')]`
+
+### Colors & Theme (`app/globals.css`)
+
+The site uses Tailwind's `stone` color palette (warm beige/grey tones). To change the overall color scheme:
+
+- **Background:** `bg-stone-50`, `bg-stone-100` (light), `bg-stone-800`, `bg-stone-900` (dark)
+- **Text:** `text-stone-900` (headings), `text-stone-600` (body), `text-stone-500` (muted), `text-stone-400` (very muted)
+- **Borders/accents:** `border-stone-200`, `bg-stone-200`
+- **Buttons:** `bg-stone-800 text-white` (primary), `border-stone-800 text-stone-800` (outline)
+
+To switch to a completely different palette (e.g., `slate`, `zinc`, `neutral`, `gray`):
+1. Search-and-replace `stone` with your chosen color name across all files
+2. Or change the shadcn base color: edit `components.json` and run `npx shadcn add` to regenerate
+
+### Fonts (`app/layout.tsx`)
+
+Current fonts:
+- **Headings:** Playfair Display (serif, elegant)
+- **Body:** Inter (sans-serif, clean)
+
+To change:
+1. Import different fonts from `next/font/google`
+2. Update the `variable` names and apply them in the `<html>` and CSS
+
+### RSVP Page (`app/rsvp/page.tsx`)
+
+| What to Change | Where |
+|---|---|
+| Form fields | The input sections in each step |
+| Event display colors | The amber/stone/green dots for Tea/Vow/Reception |
+| Success message text | In the `step === "success"` block |
+| Cookie expiry | `expiry.setFullYear(expiry.getFullYear() + 1)` — change the `+ 1` |
+
+### Find My Seat (`app/find-my-seat/page.tsx`)
+
+| What to Change | Where |
+|---|---|
+| Cookie name | `wedding-guest-id` — search and replace |
+| Auto-loading behavior | The `useEffect` at the top |
+| "Clear my info" button | The red button that calls `document.cookie = ...` |
+
+### Admin Dashboard (`app/admin/(protected)/page.tsx`)
+
+- Stats cards pull from `/api/admin/guests` and `/api/admin/tables`
+- Colors: green for confirmed, red for declined, amber for pending
+
+### Admin Guest Management (`app/admin/(protected)/guests/page.tsx`)
+
+| What to Change | Where |
+|---|---|
+| CSV import format | The `Papa.parse` block and the column mapping |
+| Export CSV columns | The `headers` array and `rows.map` |
+| New guest default fields | The `useState` for `newGuest` |
+| Table columns | The `<table>` structure near the bottom |
+
+### Admin Table Designer (`app/admin/(protected)/tables/page.tsx`)
+
+| What to Change | Where |
+|---|---|
+| Default table size | The `newTable` useState defaults |
+| Map dimensions | The SVG `viewBox` (currently 800x600) |
+| Grid line colors | The `stroke="#e7e5e4"` lines in the SVG |
+| Table colors | The `fill` and `stroke` values in the `<circle>` and `<rect>` elements |
+
+### Table Map Component (`components/table-map.tsx`)
+
+This is the reusable SVG map used by both the admin designer and the public Find My Seat page.
+
+| What to Change | Where |
+|---|---|
+| Highlight animation | The `animate-pulse` class on highlighted tables |
+| Seat count display | The text showing `guests.length/seats` |
+| Table label font size | The `style={{ fontSize: "12px" }}` values |
+
+### API Routes (`app/api/`)
+
+| Route | Purpose | Key Config |
+|---|---|---|
+| `/api/rsvp` | Guest lookup + RSVP submit | Fuzzy search threshold: `0.3`, filter: `< 0.4` |
+| `/api/find-seat` | Seat lookup by name or guestId | Also filters for `rsvpStatus: "confirmed"` |
+| `/api/admin/login` | Auth + logout | Uses bcrypt + iron-session |
+| `/api/admin/guests` | CRUD + CSV import/export | Zod validation schema |
+| `/api/admin/tables` | Table CRUD | Returns tables with guests included |
+
+### Database Schema (`prisma/schema.prisma`)
+
+**Adding a new field to guests:**
+1. Edit `prisma/schema.prisma`
+2. Add the field to the `Guest` model
+3. Run `npx prisma migrate dev --name describe_your_change`
+4. Run `npx prisma generate`
+5. Update the API routes and frontend pages to use the new field
+6. Rebuild: `npm run build`
+
+**Current Guest fields:**
+- `firstName`, `lastName`, `phone`, `email`
+- `tableId`, `seatNumber`
+- `plusOne`, `plusOneName`
+- `invitedToTea`, `invitedToCeremony`, `invitedToReception`
+- `dietaryNotes`
+- `rsvpStatus` (`pending` | `confirmed` | `declined`)
+- `rsvpDate`
+- `notes`
+
+### Environment Variables (`.env`)
+
+| Variable | What it does | Change when? |
+|---|---|---|
+| `DATABASE_URL` | SQLite file location | Rarely — only if moving the DB |
+| `ADMIN_PASSWORD` | Default admin login password | **Before deploying!** |
+| `SESSION_SECRET` | Encryption key for cookies | **Before deploying!** Generate random 32+ chars |
+
+**To change the admin password after the DB is seeded:**
+1. Update `ADMIN_PASSWORD` in `.env`
+2. Run `npx prisma db seed` to re-seed with the new hash
+3. Or manually hash a password and update the `Admin` row in the DB
+
+### Adding a New Page
+
+1. Create `app/new-page/page.tsx`
+2. If it needs to be protected, put it inside `app/admin/(protected)/`
+3. If it needs an API, create `app/api/new-route/route.ts`
+4. Add a link to it from existing pages
+5. Run `npm run build`
+
+### Changing the Favicon
+
+Replace `app/favicon.ico` with your own `.ico` file.
+
+---
+
 ## Quick Reference
 
 ### Kill the server
