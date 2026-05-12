@@ -97,37 +97,47 @@ export default function HomePage() {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-serif text-stone-900 mb-8">The Details</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6">
-              <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          <div className="space-y-6 max-w-2xl mx-auto">
+            <div className="flex items-start gap-4 p-6 bg-stone-50 rounded-xl">
+              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+                <span className="text-amber-700 font-serif text-lg">1</span>
               </div>
-              <h3 className="text-xl font-serif mb-2">Ceremony</h3>
-              <p className="text-stone-500">3:00 PM</p>
-              <p className="text-stone-600">The Garden Chapel</p>
+              <div className="text-left">
+                <h3 className="text-xl font-serif mb-1">Tea Ceremony</h3>
+                <p className="text-stone-500">1:00 PM · The Garden Room</p>
+                <p className="text-stone-400 text-sm mt-1">An intimate gathering for family and close friends</p>
+              </div>
             </div>
-            <div className="p-6">
+            <div className="flex items-start gap-4 p-6 bg-stone-50 rounded-xl">
+              <div className="w-12 h-12 bg-stone-200 rounded-full flex items-center justify-center shrink-0">
+                <span className="text-stone-700 font-serif text-lg">2</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-xl font-serif mb-1">Vow Ceremony</h3>
+                <p className="text-stone-500">3:00 PM · The Garden Chapel</p>
+                <p className="text-stone-400 text-sm mt-1">Where we say our vows and become husband and wife</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4 p-6 bg-stone-50 rounded-xl">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+                <span className="text-green-700 font-serif text-lg">3</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-xl font-serif mb-1">Reception</h3>
+                <p className="text-stone-500">6:00 PM · The Grand Ballroom</p>
+                <p className="text-stone-400 text-sm mt-1">Dinner, drinks, and dancing with everyone we love</p>
+              </div>
+            </div>
+            <div className="p-6 text-center">
               <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-serif mb-2">Venue</h3>
-              <p className="text-stone-500">The Garden Estate</p>
-              <p className="text-stone-600">123 Blossom Lane</p>
-            </div>
-            <div className="p-6">
-              <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-serif mb-2">Reception</h3>
-              <p className="text-stone-500">5:00 PM</p>
-              <p className="text-stone-600">The Grand Ballroom</p>
+              <h3 className="text-xl font-serif mb-2">The Garden Estate</h3>
+              <p className="text-stone-500">123 Blossom Lane</p>
+              <p className="text-stone-400 text-sm mt-1">All events at the same venue</p>
             </div>
           </div>
         </div>

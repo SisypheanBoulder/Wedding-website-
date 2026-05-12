@@ -14,6 +14,9 @@ interface Guest {
   plusOne: boolean;
   plusOneName: string | null;
   dietaryNotes: string | null;
+  invitedToTea: boolean;
+  invitedToCeremony: boolean;
+  invitedToReception: boolean;
   notes: string | null;
   rsvpStatus: string;
   table: { name: string } | null;
@@ -34,6 +37,9 @@ export default function AdminGuestsPage() {
     phone: "",
     email: "",
     plusOne: false,
+    invitedToTea: false,
+    invitedToCeremony: false,
+    invitedToReception: true,
     notes: "",
   });
 
@@ -111,7 +117,7 @@ export default function AdminGuestsPage() {
       });
       if (res.ok) {
         setShowAdd(false);
-        setNewGuest({ firstName: "", lastName: "", phone: "", email: "", plusOne: false, notes: "" });
+        setNewGuest({ firstName: "", lastName: "", phone: "", email: "", plusOne: false, invitedToTea: false, invitedToCeremony: false, invitedToReception: true, notes: "" });
         fetchGuests();
       }
     } catch {
@@ -120,7 +126,7 @@ export default function AdminGuestsPage() {
   }
 
   function exportCSV() {
-    const headers = ["firstName", "lastName", "phone", "email", "plusOne", "plusOneName", "rsvpStatus", "table", "seatNumber", "dietaryNotes", "notes"];
+    const headers = ["firstName", "lastName", "phone", "email", "plusOne", "plusOneName", "invitedToTea", "invitedToCeremony", "invitedToReception", "rsvpStatus", "table", "seatNumber", "dietaryNotes", "notes"];
     const rows = guests.map((g) => [
       g.firstName,
       g.lastName,
@@ -128,6 +134,9 @@ export default function AdminGuestsPage() {
       g.email || "",
       g.plusOne ? "true" : "false",
       g.plusOneName || "",
+      g.invitedToTea ? "true" : "false",
+      g.invitedToCeremony ? "true" : "false",
+      g.invitedToReception ? "true" : "false",
       g.rsvpStatus,
       g.table?.name || "",
       g.seatNumber || "",
@@ -283,6 +292,30 @@ export default function AdminGuestsPage() {
                 />
                 Plus One
               </label>
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={newGuest.invitedToTea}
+                  onChange={(e) => setNewGuest({ ...newGuest, invitedToTea: e.target.checked })}
+                />
+                Tea Ceremony
+              </label>
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={newGuest.invitedToCeremony}
+                  onChange={(e) => setNewGuest({ ...newGuest, invitedToCeremony: e.target.checked })}
+                />
+                Vow Ceremony
+              </label>
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={newGuest.invitedToReception}
+                  onChange={(e) => setNewGuest({ ...newGuest, invitedToReception: e.target.checked })}
+                />
+                Reception
+              </label>
               <input
                 placeholder="Notes"
                 value={newGuest.notes}
@@ -348,6 +381,30 @@ export default function AdminGuestsPage() {
                 onChange={(e) => setEditing({ ...editing, dietaryNotes: e.target.value })}
                 className="px-4 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
               />
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={editing.invitedToTea}
+                  onChange={(e) => setEditing({ ...editing, invitedToTea: e.target.checked })}
+                />
+                Tea Ceremony
+              </label>
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={editing.invitedToCeremony}
+                  onChange={(e) => setEditing({ ...editing, invitedToCeremony: e.target.checked })}
+                />
+                Vow Ceremony
+              </label>
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <input
+                  type="checkbox"
+                  checked={editing.invitedToReception}
+                  onChange={(e) => setEditing({ ...editing, invitedToReception: e.target.checked })}
+                />
+                Reception
+              </label>
             </div>
             <div className="flex gap-2 mt-4">
               <button

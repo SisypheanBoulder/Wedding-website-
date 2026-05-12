@@ -17,11 +17,14 @@ model Guest {
   seatNumber   Int?
   plusOne      Boolean   @default(false)
   plusOneName  String?
-  dietaryNotes String?
-  rsvpStatus   String    @default("pending") // pending | confirmed | declined
-  rsvpDate     DateTime?
-  notes        String?
-  table        Table?    @relation(fields: [tableId], references: [id])
+  dietaryNotes       String?
+  invitedToTea       Boolean   @default(false)
+  invitedToCeremony  Boolean   @default(false)
+  invitedToReception Boolean   @default(true)
+  rsvpStatus         String    @default("pending") // pending | confirmed | declined
+  rsvpDate           DateTime?
+  notes              String?
+  table              Table?    @relation(fields: [tableId], references: [id])
 }
 
 model Table {

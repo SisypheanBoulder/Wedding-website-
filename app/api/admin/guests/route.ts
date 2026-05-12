@@ -13,6 +13,9 @@ const guestSchema = z.object({
   seatNumber: z.number().optional().nullable(),
   plusOne: z.boolean().optional(),
   plusOneName: z.string().optional(),
+  invitedToTea: z.boolean().optional(),
+  invitedToCeremony: z.boolean().optional(),
+  invitedToReception: z.boolean().optional(),
   notes: z.string().optional(),
 });
 
@@ -53,6 +56,9 @@ export async function POST(req: NextRequest) {
           seatNumber: row.seatNumber || row["Seat Number"] ? parseInt(row.seatNumber || row["Seat Number"]) : null,
           plusOne: row.plusOne === "true" || row["Plus One"] === "true",
           plusOneName: row.plusOneName || row["Plus One Name"] || null,
+          invitedToTea: row.invitedToTea === "true" || row["Invited To Tea"] === "true",
+          invitedToCeremony: row.invitedToCeremony === "true" || row["Invited To Ceremony"] === "true",
+          invitedToReception: row.invitedToReception === "false" || row["Invited To Reception"] === "false" ? false : true,
           notes: row.notes || row["Notes"] || null,
         };
 

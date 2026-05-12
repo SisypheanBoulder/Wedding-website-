@@ -13,6 +13,9 @@ interface GuestMatch {
   seatNumber: number | null;
   plusOne: boolean;
   plusOneName: string | null;
+  invitedToTea: boolean;
+  invitedToCeremony: boolean;
+  invitedToReception: boolean;
   rsvpStatus: string;
   table: { name: string } | null;
 }
@@ -197,6 +200,31 @@ export default function RsvpPage() {
                   {selectedGuest.seatNumber && `, Seat ${selectedGuest.seatNumber}`}
                 </div>
               )}
+            </div>
+
+            <div className="bg-stone-50 p-4 rounded-lg">
+              <h4 className="text-sm font-medium text-stone-700 mb-2">You are invited to:</h4>
+              <div className="space-y-1">
+                {selectedGuest.invitedToTea && (
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
+                    <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                    Tea Ceremony — 1:00 PM
+                  </div>
+                )}
+                {selectedGuest.invitedToCeremony && (
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
+                    <span className="w-2 h-2 bg-stone-500 rounded-full"></span>
+                    Vow Ceremony — 3:00 PM
+                  </div>
+                )}
+                {selectedGuest.invitedToReception && (
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                    Reception — 6:00 PM
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-stone-400 mt-2">All events at The Garden Estate</p>
             </div>
 
             <div>
