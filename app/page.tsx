@@ -49,7 +49,7 @@ function Countdown({ targetDate }: { targetDate: Date }) {
 }
 
 export default function HomePage() {
-  const weddingDate = new Date("2026-09-12T15:00:00"); // Example date
+  const weddingDate = new Date("2027-03-28T15:00:00"); // Adrian & Katelyn's wedding
 
   return (
     <main className="min-h-screen">
@@ -61,14 +61,14 @@ export default function HomePage() {
             Together with our families
           </p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-stone-900 mb-4">
-            Alex <span className="text-stone-400">&</span> Jordan
+            Adrian <span className="text-stone-400">&</span> Katelyn
           </h1>
           <p className="text-xl md:text-2xl text-stone-600 font-light mb-8">
             Request the pleasure of your company at their wedding
           </p>
           <div className="w-16 h-px bg-stone-400 mx-auto mb-8" />
           <p className="text-lg md:text-xl text-stone-700 mb-2">
-            Saturday, September 12th, 2026
+            Sunday, March 28th, 2027
           </p>
           <p className="text-stone-500 mb-12">3:00 PM · The Garden Estate</p>
 
@@ -135,7 +135,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-8 text-center text-stone-400 text-sm bg-stone-50">
-        <p>Alex & Jordan · September 12, 2026</p>
+        <p>Adrian & Katelyn · March 28, 2027</p>
       </footer>
     </main>
   );
