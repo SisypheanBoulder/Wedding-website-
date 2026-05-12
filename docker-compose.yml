@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  wedding-app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:./prisma/dev.db
+      - SESSION_SECRET=${SESSION_SECRET}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - wedding-db:/app/prisma
+    restart: unless-stopped
+
+volumes:
+  wedding-db:
